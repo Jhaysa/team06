@@ -1,3 +1,4 @@
+// "use server";
 
 import { tasks } from "./data";
 import { Task } from "./types";
