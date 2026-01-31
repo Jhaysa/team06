@@ -1,4 +1,5 @@
 import { StickyNote } from "lucide-react";
+import Link from "next/link";
 
 
 export default function Hero() {
@@ -10,8 +11,8 @@ export default function Hero() {
                 <p className="text-3xl font-bold text-gray-600">Get things done. Simply.</p>
             </div>
             <div className="flex gap-4">
-                <a href="/tasks" className="bg-slate-500 p-3 rounded-xl text-white text-lg hover:shadow-md transition">View Tasks</a>
-                <a href="/tasks/create" className="bg-blue-500 p-3 rounded-xl text-white text-lg hover:shadow-md transition">Create Task</a>
+                <Link href="/tasks" className="bg-slate-500 p-3 rounded-xl text-white text-lg hover:shadow-md transition">View Tasks</Link>
+                <Link href="/tasks/create" className="bg-blue-500 p-3 rounded-xl text-white text-lg hover:shadow-md transition">Create Task</Link>
             </div>
         </section>
     )

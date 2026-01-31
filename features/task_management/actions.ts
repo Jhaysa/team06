@@ -1,36 +1,35 @@
 // "use server";
 
-import { tasks } from "./data";
 import { Task } from "./types";
+import { addDocument, getCollection, getDocument, updateDocument, deleteDocument } from "@/services/firebase/utils";
+
+const COLLECTION_NAME = "tasks";
 
 const createTask = async (task: Task) => {
-    // Logic to create a new task
-    // TODO: Replace with actual data fetching logic
-    tasks.push(task);
+    // Persist task to Firestore
+    await addDocument(COLLECTION_NAME, task, task.id);
     console.log("Task created:", task);
     return task;
 }
 
 const updateTask = async (taskId: string, updatedTask: Partial<Task>) => {
-    // Logic to update an existing task
-    // TODO: Replace with actual data fetching logic
+    // Update in Firestore
+    await updateDocument(COLLECTION_NAME, taskId, updatedTask as Partial<Task>);
 }
 
 const deleteTask = async (taskId: string) => {
-    // Logic to delete a task
-    // TODO: Replace with actual data fetching logic
+    // Delete from Firestore
+    await deleteDocument(COLLECTION_NAME, taskId);
 }
 
 const getTaskById = async (taskId: string): Promise<Task | null> => {
-    // Logic to retrieve a task by its ID
-    // TODO: Replace with actual data fetching logic
-    return null;
+    const doc = await getDocument<Task>(COLLECTION_NAME, taskId);
+    return doc;
 }
 
 const getAllTasks = async (): Promise<Task[]> => {
-    // Logic to retrieve all tasks
-    // TODO: Replace with actual data fetching logic
-    return tasks;
+    const docs = await getCollection<Task>(COLLECTION_NAME);
+    return docs.map(d => ({ ...d }));
 }
 
 export {
