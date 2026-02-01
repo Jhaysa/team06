@@ -1,7 +1,7 @@
 // "use server";
 
 import { Task } from "./types";
-import { addDocument, getCollection, getDocument, updateDocument, deleteDocument } from "@/services/firebase/utils";
+import { addDocument, getCollection, getDocument, updateDocument, deleteDocument } from "@/services/utils";
 
 const COLLECTION_NAME = "tasks";
 
