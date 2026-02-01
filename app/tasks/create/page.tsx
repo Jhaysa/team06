@@ -44,7 +44,9 @@ export default function Page() {
                 </div>
 
                 <form onSubmit={handleCreateTask} className="flex flex-col items-center max-w-md min-w-xs w-full">
+                    <label htmlFor="title" className="sr-only">Title</label>
                     <input
+                        id="title"
                         type="text"
                         placeholder="Title"
                         className="border p-2 rounded-lg w-full mb-4"
@@ -52,14 +54,18 @@ export default function Page() {
                         required
                     />
 
+                    <label htmlFor="description" className="sr-only">Description</label>
                     <textarea
+                        id="description"
                         placeholder="Description"
                         className="border p-2 rounded-lg w-full mb-4"
                         name="description"
                         required
                     ></textarea>
 
+                    <label htmlFor="dueDate" className="sr-only">Due date</label>
                     <input
+                        id="dueDate"
                         type="date"
                         className="border p-2 rounded-lg w-full mb-4"
                         name="dueDate"
