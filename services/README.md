@@ -4,7 +4,7 @@ This directory contains all external service integrations and backend configurat
 
 ## 📋 Sample Folder Structure
 
-```
+```text
 services/
 ├── firebase/
 │   ├── config.ts          # Firebase initialization and configuration
