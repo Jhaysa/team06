@@ -9,12 +9,17 @@ import {
 import {
   collection,
   addDoc,
+  setDoc,
+  doc,
   getDocs,
+  getDoc,
+  updateDoc,
+  deleteDoc,
   query,
   where,
-  DocumentData,
-  CollectionReference,
-  WhereFilterOp,
+  type DocumentData,
+  type CollectionReference,
+  type WhereFilterOp,
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
@@ -49,21 +54,46 @@ export function onAuthChange(cb: (user: User | null) => void) {
 /**
  * Add a document to a Firestore collection
  */
-export async function addDocument<T = DocumentData>(
+export async function addDocument<T extends DocumentData = DocumentData>(
   collectionPath: string,
-  data: T
-) {
+  data: T,
+  docID?: string
+): Promise<string> {
+  if (docID) {
+    const docRef = doc(db, collectionPath, docID);
+    await setDoc(docRef, data);
+    return docID;
+  }
+
   const colRef = collection(db, collectionPath) as CollectionReference<T>;
-  return addDoc(colRef, data);
+  const ref = await addDoc(colRef, data as T);
+  return ref.id;
 }
 
 /**
  * Get all documents from a Firestore collection
  */
-export async function getCollection<T = DocumentData>(collectionPath: string) {
+export async function getCollection<T extends DocumentData = DocumentData>(collectionPath: string): Promise<Array<T & { id: string }>> {
   const colRef = collection(db, collectionPath) as CollectionReference<T>;
   const snap = await getDocs(colRef);
   return snap.docs.map((d) => ({ id: d.id, ...(d.data() as T) }));
+}
+
+export async function getDocument<T extends DocumentData = DocumentData>(collectionPath: string, id: string): Promise<T | null> {
+  const docRef = doc(db, collectionPath, id);
+  const snap = await getDoc(docRef);
+  if (!snap.exists()) return null;
+  return snap.data() as T;
+}
+
+export async function updateDocument(collectionPath: string, id: string, data: Partial<DocumentData>): Promise<void> {
+  const docRef = doc(db, collectionPath, id);
+  await updateDoc(docRef, data);
+}
+
+export async function deleteDocument(collectionPath: string, id: string): Promise<void> {
+  const docRef = doc(db, collectionPath, id);
+  await deleteDoc(docRef);
 }
 
 /**
